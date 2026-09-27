@@ -1,0 +1,36 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import PageBanner from '../../components/PageBanner.astro';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import aboutBanner from '../../assets/site/banner-about.jpg';
+import accessBanner from '../../assets/site/banner-access.jpg';
+import firstBanner from '../../assets/site/banner-first.jpg';
+import medicalBanner from '../../assets/site/banner-medical.jpg';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages', ({ id }) => id !== 'home');
+  return pages.map((page) => ({ params: { slug: page.id }, props: { page } }));
+}
+
+interface Props {
+  page: CollectionEntry<'pages'>;
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+const banners = {
+  about: aboutBanner,
+  medical: medicalBanner,
+  first: firstBanner,
+  access: accessBanner,
+  policy: aboutBanner,
+};
+const banner = banners[page.id as keyof typeof banners];
+---
+
+<SiteLayout title={page.data.title} description={page.data.description}>
+  <PageBanner title={page.data.title} image={banner} />
+  <article class={`page-content page-${page.id}`}>
+    <Content />
+  </article>
+</SiteLayout>

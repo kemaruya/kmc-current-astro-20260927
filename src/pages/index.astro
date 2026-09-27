@@ -1,17 +1,15 @@
 ---
+import { getEntry, render } from 'astro:content';
+import SiteLayout from '../layouts/SiteLayout.astro';
 
+const page = await getEntry('pages', 'home');
+if (!page) throw new Error('Home content is missing');
+const { Content } = await render(page);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<SiteLayout title={page.data.title} description={page.data.description}>
+  <h1 class="visually-hidden">京橋内科医院</h1>
+  <article class="page-content home-content">
+    <Content />
+  </article>
+</SiteLayout>

@@ -1,5 +1,5 @@
 {
-  "name": "d-src-kmc-current-astro-20260927",
+  "name": "kmc-current-astro-20260927",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -8,10 +8,13 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "check": "astro build && node scripts/verify-build.mjs",
+    "import:content": "node scripts/import-existing-content.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
+    "@fontsource-variable/noto-sans-jp": "^5.3.0",
     "astro": "^7.3.5"
   },
   "allowScripts": {
